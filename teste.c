@@ -32,7 +32,9 @@ void main(){
 		case '1':
 			system("cls");
 			fflush(stdin);
-			printf("Informe o nome do jogador 1: ");
+			
+			system("pause");
+			/*printf("Informe o nome do jogador 1: ");
 			gets(jogadores[0].nome);
 			printf("Informe o nome do jogador 2: ");
 			gets(jogadores[1].nome);
@@ -46,7 +48,7 @@ void main(){
 				jogadores[1].x_O = 'X';
 			}
 			mostrarMatriz(matriz);
-			system("pause");
+			system("pause");*/
 			break;
 		case '0':
 			if(op=='0'){
