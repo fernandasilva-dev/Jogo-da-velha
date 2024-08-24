@@ -1,2 +1,2 @@
 # Jogo-da-velha
-Jogo-da-velha em c
+Jogo-da-velha na linguagem c
