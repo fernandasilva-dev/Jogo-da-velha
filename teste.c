@@ -8,15 +8,15 @@ typedef struct {
 	   char x_O;
 }Jogador;
 
-void mostrarMatriz(char matriz[3][3]);
-void modificarMatriz(char *posicao_matriz);
+void tabuleiroInicial(char tabuleiro[3][3]);
+void mostrarTabuleiro(char tabuleiro[3][3]);
+void modificarTabuleiro(char *posicao_tabuleiro);
 
 void main(){
+	
+	char tabuleiro[3][3];
+	tabuleiroInicial(tabuleiro);
 	Jogador jogadores[2];
-	char matriz[3][3];
-	matriz[0][0]=' ';matriz[0][1]=' ';matriz[0][2]=' ';
-	matriz[1][0]=' ';matriz[1][1]=' ';matriz[1][2]=' ';
-	matriz[2][0]=' ';matriz[2][1]=' ';matriz[2][2]=' ';
 	
 	while(1){
 		system("cls");
@@ -32,9 +32,7 @@ void main(){
 		case '1':
 			system("cls");
 			fflush(stdin);
-			
-			system("pause");
-			/*printf("Informe o nome do jogador 1: ");
+			printf("Informe o nome do jogador 1: ");
 			gets(jogadores[0].nome);
 			printf("Informe o nome do jogador 2: ");
 			gets(jogadores[1].nome);
@@ -47,8 +45,8 @@ void main(){
 			}else{
 				jogadores[1].x_O = 'X';
 			}
-			mostrarMatriz(matriz);
-			system("pause");*/
+			mostrarTabuleiro(tabuleiro);
+			system("pause");
 			break;
 		case '0':
 			if(op=='0'){
@@ -64,26 +62,37 @@ void main(){
 	}	
 }//fim main
 
-void mostrarMatriz(char matriz[3][3]){
+void tabuleiroInicial(char tabuleiro[3][3]){
+	int i,j;
+	for(i=0;i<3;i++){
+		for(j=0;j<3;j++){
+			tabuleiro[i][j] = ' ';	
+		}
+	}
+}//fim tabuleiroInicial
+
+void mostrarTabuleiro(char tabuleiro[3][3]){
 	system("cls");
 	int i,j;
 	for(i=0;i<3;i++){
 		for(j=0;j<3;j++){
 			if(j==2){
-				printf(" %c ",matriz[i][j]);
+				printf(" %c ",tabuleiro[i][j]);
 				printf("\n");
 				if(i!=2){
 					printf("-----------");
 					printf("\n");
 				}
 			}else{
-				printf(" %c |",matriz[i][j]);
+				printf(" %c |",tabuleiro[i][j]);
 			}//fim else
 		}//fim for do J
 	}//fim do for do I
 }//fim mostrarMatriz
 
-void modificarMatriz(char *posicao_matriz){
-	char *p = posicao_matriz;
+
+
+void modificarTabuleiro(char *posicao_tabuleiro){
+	char *p = posicao_tabuleiro;
 	*p = 'X';
 }//fim modificarMatriz
