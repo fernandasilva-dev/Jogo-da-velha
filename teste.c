@@ -32,6 +32,7 @@ void main(){
 	char tabuleiro[3][3];
 	tabuleiroInicial(tabuleiro);
 	Jogador jogador[2];
+	int turno = 0;
 	
 	while(1){
 		system("cls");
@@ -51,7 +52,7 @@ void main(){
 			
 			nomeLetraJogador(jogador);
 			mostrarTabuleiro(tabuleiro);
-			
+			printf("\n");
 			system("pause");
 			break;
 		case '0':
@@ -109,11 +110,14 @@ void tabuleiroInicial(char tabuleiro[3][3]){
 void mostrarTabuleiro(char tabuleiro[3][3]){
 	system("cls");
 	int i,j;
-	printf(" 1   2   3\n");
+	printf("----- JODO DA VELHA -----\n\n");
+	printf(" 1   2   3\n\n");
+	
 	for(i=0;i<3;i++){
 		for(j=0;j<3;j++){
 			if(j==2){
 				printf(" %c ",tabuleiro[i][j]);
+				printf("   %d", i+1);
 				printf("\n");
 				if(i!=2){
 					printf("-----------");
@@ -125,8 +129,6 @@ void mostrarTabuleiro(char tabuleiro[3][3]){
 		}//fim for do J
 	}//fim do for do I
 }//fim mostrarMatriz
-
-
 
 void modificarTabuleiro(char *posicao_tabuleiro){
 	char *p = posicao_tabuleiro;
