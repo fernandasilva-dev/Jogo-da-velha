@@ -68,7 +68,6 @@ void main(){
 }//fim main
 
 void nomeLetraJogador(Jogador *jogador1, Jogador *jogador2){
-
 	printf("Informe o nome do jogador 1: ");
 	gets(jogador1->nome);
 	jogador1->letra = 'X';
