@@ -36,12 +36,14 @@ void mostrarTabuleiro(char tabuleiro[3][3]) {
 void jogar(Jogador *jogador, char tabuleiro[3][3]) {
     int linha;
     int coluna;
+    int linhaColuna;
     do {
         printf("%sDigite a linha e coluna: ", jogador->nome);
-        scanf("%d %d", &linha, &coluna);
+        linhaColuna = scanf("%d %d", &linha, &coluna);
        
-        if (linha < 1 || linha > 3 || coluna < 1 || coluna > 3 || tabuleiro[linha-1][coluna-1] != ' ') {
+        if (linhaColuna !=2 || linha < 1 || linha > 3 || coluna < 1 || coluna > 3 || tabuleiro[linha-1][coluna-1] != ' ') {
             printf("Movimento inválido!\n");
+            while(getchar() != '\n');
         } else {
             break;
         }
@@ -98,9 +100,7 @@ int verificarEmpate(char tabuleiro[3][3]){
     return 3;
 }
 
-void main() {
-    setlocale(LC_ALL, "Portuguese");
-   
+void main() {   
     char tabuleiro[3][3];
     Jogador jogador1;
     Jogador jogador2;
@@ -123,6 +123,8 @@ void main() {
     jogadorAtual = &jogador1;
     while (1) {
         system('cls');
+        setlocale(LC_ALL, "Portuguese");
+
         jogar(jogadorAtual, tabuleiro);
         mostrarTabuleiro(tabuleiro);
         if (jogadorAtual == &jogador1) {
@@ -135,11 +137,11 @@ void main() {
         
         ganhador = verificarVencedor(tabuleiro);
         if(ganhador == 1){
-            printf("%s é o vencedor!", jogador1.nome);
+            printf("%se o vencedor!", jogador1.nome);
             break;
         }
         if(ganhador == 2){
-            printf("%s é o vencedor!", jogador2.nome);
+            printf("%se o vencedor!", jogador2.nome);
             break;
         }
         ganhador = verificarEmpate(tabuleiro);
@@ -149,4 +151,3 @@ void main() {
             }
     }
 }//fim main
-
