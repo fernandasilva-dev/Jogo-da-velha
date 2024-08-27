@@ -5,7 +5,8 @@
 
 typedef struct {
 	   char	nome[100];
-	   char x_O;
+	   char letra;
+	   int vitoria;
 }Jogador;
 
 void tabuleiroInicial(char tabuleiro[3][3]);
@@ -16,7 +17,7 @@ void main(){
 	
 	char tabuleiro[3][3];
 	tabuleiroInicial(tabuleiro);
-	Jogador jogadores[2];
+	Jogador jogador[2];
 	
 	while(1){
 		system("cls");
@@ -32,7 +33,22 @@ void main(){
 		case '1':
 			system("cls");
 			fflush(stdin);
-			printf("Informe o nome do jogador 1: ");
+			
+			printf("Enderero jogador 1: %p\n", jogador[0]);
+			printf("Enderero jogador 1: %p\n", jogador[1]);
+			
+			Jogador *p;
+			p = &jogador[0];
+			p->nome = "Bruno";
+			
+			
+			printf("Enderero jogador 1: %s\n", p);
+			//printf("Enderero jogador 1: %p\n", jogador[1]);
+			
+			
+			system("pause");
+			
+			/*printf("Informe o nome do jogador 1: ");
 			gets(jogadores[0].nome);
 			printf("Informe o nome do jogador 2: ");
 			gets(jogadores[1].nome);
@@ -46,7 +62,7 @@ void main(){
 				jogadores[1].x_O = 'X';
 			}
 			mostrarTabuleiro(tabuleiro);
-			system("pause");
+			system("pause");*/
 			break;
 		case '0':
 			if(op=='0'){

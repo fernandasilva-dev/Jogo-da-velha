@@ -5,7 +5,8 @@
 
 typedef struct {
 	   char	nome[100];
-	   char x_O;
+	   char letra;
+	   int vitorias;
 }Jogador;
 
 void tabuleiroInicial(char tabuleiro[3][3]);
