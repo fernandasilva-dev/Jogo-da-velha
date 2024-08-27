@@ -3,6 +3,19 @@
 #include <stdlib.h>
 //  \n
 
+/*
+
+printf("Endereco &jogador[2]: %p\n\n", &jogador[2]);
+printf("Endereco &jogador: %p\n\n", &jogador);
+printf("Endereco &jogador[0]: %p\n", &jogador[0]);
+printf("Endereco &jogador[1]: %p\n\n", &jogador[1]);
+printf("Endereco &jogador[0].nome: %p\n", &jogador[0].nome);
+printf("Endereco &jogador[0].letra: %p\n\n", &jogador[0].letra);
+printf("Endereco &jogador[1].nome: %p\n", &jogador[1].nome);
+printf("Endereco &jogador[1].letra: %p\n", &jogador[1].letra);
+
+*/
+
 typedef struct {
 	   char	nome[100];
 	   char letra;
@@ -10,6 +23,7 @@ typedef struct {
 }Jogador;
 
 void tabuleiroInicial(char tabuleiro[3][3]);
+void nomeLetraJogador(Jogador *jogador, Jogador *jogador2);
 void mostrarTabuleiro(char tabuleiro[3][3]);
 void modificarTabuleiro(char *posicao_tabuleiro);
 
@@ -22,6 +36,7 @@ void main(){
 	while(1){
 		system("cls");
 		fflush(stdin);
+		
 		char op;
 		printf("----- JODO DA VELHA -----\n");
 		printf("1 - Jogar\n");
@@ -33,36 +48,9 @@ void main(){
 		case '1':
 			system("cls");
 			fflush(stdin);
-			
-			printf("Enderero jogador 1: %p\n", jogador[0]);
-			printf("Enderero jogador 1: %p\n", jogador[1]);
-			
-			Jogador *p;
-			p = &jogador[0];
-			p->nome = "Bruno";
-			
-			
-			printf("Enderero jogador 1: %s\n", p);
-			//printf("Enderero jogador 1: %p\n", jogador[1]);
-			
+			nomeLetraJogador(&jogador[0], &jogador[1]);
 			
 			system("pause");
-			
-			/*printf("Informe o nome do jogador 1: ");
-			gets(jogadores[0].nome);
-			printf("Informe o nome do jogador 2: ");
-			gets(jogadores[1].nome);
-			printf("%s voce vai querer X ou O?: ",jogadores[0].nome);
-			scanf("%c", &jogadores[0].x_O);
-			jogadores[0].x_O = toupper(jogadores[0].x_O);
-			
-			if(jogadores[0].x_O =='X'){
-				jogadores[1].x_O = 'O';
-			}else{
-				jogadores[1].x_O = 'X';
-			}
-			mostrarTabuleiro(tabuleiro);
-			system("pause");*/
 			break;
 		case '0':
 			if(op=='0'){
@@ -75,8 +63,20 @@ void main(){
 			system("pause");
 			break;
 		}
-	}	
+	}// fim while
+		
 }//fim main
+
+void nomeLetraJogador(Jogador *jogador1, Jogador *jogador2){
+
+	printf("Informe o nome do jogador 1: ");
+	gets(jogador1->nome);
+	jogador1->letra = 'X';
+	
+	printf("Informe o nome do jogador 2: ");
+	gets(jogador2->nome);
+	jogador2->letra = 'O';
+}
 
 void tabuleiroInicial(char tabuleiro[3][3]){
 	int i,j;
