@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
-//  \n
+//  \n ||
 
 /*
 
@@ -23,9 +23,9 @@ typedef struct {
 }Jogador;
 
 void tabuleiroInicial(char tabuleiro[3][3]);
-void nomeLetraJogador(Jogador *jogador, Jogador *jogador2);
 void mostrarTabuleiro(char tabuleiro[3][3]);
 void modificarTabuleiro(char *posicao_tabuleiro);
+void nomeLetraJogador(Jogador *jogador);
 
 void main(){
 	
@@ -48,7 +48,9 @@ void main(){
 		case '1':
 			system("cls");
 			fflush(stdin);
-			nomeLetraJogador(&jogador[0], &jogador[1]);
+			
+			nomeLetraJogador(jogador);
+			mostrarTabuleiro(tabuleiro);
 			
 			system("pause");
 			break;
@@ -67,16 +69,33 @@ void main(){
 		
 }//fim main
 
-void nomeLetraJogador(Jogador *jogador1, Jogador *jogador2){
-
-	printf("Informe o nome do jogador 1: ");
-	gets(jogador1->nome);
-	jogador1->letra = 'X';
-	
-	printf("Informe o nome do jogador 2: ");
-	gets(jogador2->nome);
-	jogador2->letra = 'O';
-}
+void nomeLetraJogador(Jogador *jogador){
+	char letra;
+	int i;
+	for(i=0;i<2;i++){
+		fflush(stdin);
+		system("cls");
+		printf("Informe o nome do jogador %d: ", i+1);
+		gets(jogador[i].nome);
+		
+		while(jogador[0].letra != 'X' && jogador[0].letra != 'O'){
+			fflush(stdin);
+			printf("%s voce vai querer X ou O? ", jogador[0].nome);
+			scanf("%c", &letra);
+			jogador[0].letra = toupper(letra);
+			
+			if(jogador[0].letra != 'X' && jogador[0].letra != 'O'){
+				system("cls");
+				printf("Letra invalida, informe X ou O\n");	
+			}
+		}//fim while
+		if(jogador[0].letra == 'X'){
+			jogador[1].letra = 'O';
+		}else{
+			jogador[1].letra = 'X';
+		}
+	}//fim for
+}//fim nomeLetraJogador
 
 void tabuleiroInicial(char tabuleiro[3][3]){
 	int i,j;
@@ -90,6 +109,7 @@ void tabuleiroInicial(char tabuleiro[3][3]){
 void mostrarTabuleiro(char tabuleiro[3][3]){
 	system("cls");
 	int i,j;
+	printf(" 1   2   3\n");
 	for(i=0;i<3;i++){
 		for(j=0;j<3;j++){
 			if(j==2){
