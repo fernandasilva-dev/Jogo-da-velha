@@ -84,9 +84,19 @@ int verificarVencedor(char tabuleiro[3][3]) {
                 return 2;
             }
         }
-    }
+    }//fim for
 
 }//fim verificarVencedor
+
+int verificarEmpate(char tabuleiro[3][3]){
+    int i;
+    for(i = 0; i < 3; i++){
+        if(tabuleiro[i][0] == ' ' || tabuleiro[i][1] == ' ' || tabuleiro[i][2] == ' '){
+            return 0;
+        }
+    }
+    return 3;
+}
 
 void main() {
     setlocale(LC_ALL, "Portuguese");
@@ -111,7 +121,8 @@ void main() {
     mostrarTabuleiro(tabuleiro);
     
     jogadorAtual = &jogador1;
-     while (1) {
+    while (1) {
+        system('cls');
         jogar(jogadorAtual, tabuleiro);
         mostrarTabuleiro(tabuleiro);
         if (jogadorAtual == &jogador1) {
@@ -119,6 +130,7 @@ void main() {
         } else {
             jogadorAtual = &jogador1;
         }
+
         int ganhador;
         
         ganhador = verificarVencedor(tabuleiro);
@@ -130,12 +142,11 @@ void main() {
             printf("%s é o vencedor!", jogador2.nome);
             break;
         }
-        if(ganhador != 1 || ganhador != 2){
-            printf("Empate!");
-            break;
-        }
+        ganhador = verificarEmpate(tabuleiro);
+            if(ganhador == 3){
+                printf("Empate");
+                break;
+            }
     }
-
-   
 }//fim main
 
