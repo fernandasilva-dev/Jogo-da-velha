@@ -7,11 +7,6 @@ typedef struct {
     char jogada;
 } Jogador;
 
-
-void tabuleiroInicial(char tabuleiro[3][3]);
-void mostrarTabuleiro(char tabuleiro[3][3]);
-
-
 void tabuleiroInicial(char tabuleiro[3][3]) {
     int i;
     for (i = 0; i < 3; i++) {
@@ -24,7 +19,7 @@ void tabuleiroInicial(char tabuleiro[3][3]) {
 
 
 void mostrarTabuleiro(char tabuleiro[3][3]) {
-    system("cls");
+    //system("cls");
     int i;
     for (i = 0; i < 3; i++) {
         int j;
@@ -38,29 +33,71 @@ void mostrarTabuleiro(char tabuleiro[3][3]) {
 }//fim mostrarTabuleiro
 
 
-void jogar(Jogador *jogador, char tabuleiro[3][3]) {
-    int linha, coluna;
+void jogar(Jogador *jogador, char tabuleiro[3][3], int *qtdJogadas) {
+	int *p = qtdJogadas;
+    int linha;
+    int coluna;
     do {
-        printf("%s, digite a linha e coluna: ", jogador->nome);
+    	*p += 1;
+        printf("%sDigite a linha e coluna: ", jogador->nome);
         scanf("%d %d", &linha, &coluna);
        
-        if (linha < 0 || linha >= 3 || coluna < 0 || coluna >= 3 || tabuleiro[linha][coluna] != ' ') {
-            printf("Movimento inv√°lido!\n");
+        if (linha < 1 || linha > 3 || coluna < 1 || coluna > 3 || tabuleiro[linha-1][coluna-1] != ' ') {
+            printf("Movimento inv·lido!\n");
         } else {
             break;
         }
     } while (1);
-    tabuleiro[linha][coluna] = jogador->jogada;
-   
+        tabuleiro[linha-1][coluna-1] = jogador->jogada;
+    system("cls");
 }//fim turno
 
+int verificarVencedor(char tabuleiro[3][3]) {
+    int i;
+    for (i = 0; i < 3; i++) {
+        if (tabuleiro[i][0] == tabuleiro[i][1] && tabuleiro[i][1] == tabuleiro[i][2] && tabuleiro[i][0] != ' ') {
+            if(tabuleiro[i][0] == 'X'){
+                return 1;
+            }else{
+                return 2;
+            }
+        }
+
+        if (tabuleiro[0][i] == tabuleiro[1][i] && tabuleiro[1][i] == tabuleiro[2][i] && tabuleiro[0][i] != ' ') {
+            if(tabuleiro[i][0] == 'X'){
+                return 1;
+            }else{
+                return 2;
+            }
+        }
+
+        if (tabuleiro[0][0] == tabuleiro[1][1] && tabuleiro[1][1] == tabuleiro[2][2] && tabuleiro[0][0] != ' ') {
+            if(tabuleiro[i][0] == 'X'){
+                return 1;
+            }else{
+                return 2;
+            }
+        }
+
+        if (tabuleiro[0][2] == tabuleiro[1][1] && tabuleiro[1][1] == tabuleiro[2][0] && tabuleiro[0][2] != ' ') {
+            if(tabuleiro[i][0] == 'X'){
+                return 1;
+            }else{
+                return 2;
+            }
+        }
+    }
+
+}//fim verificarVencedor
 
 void main() {
+	int qtdJogadas = 0;
     setlocale(LC_ALL, "Portuguese");
    
     char tabuleiro[3][3];
     Jogador jogador1;
     Jogador jogador2;
+    Jogador *jogadorAtual;
    
     printf("========JOGO DA VELHA========\n\n");
    
@@ -75,6 +112,32 @@ void main() {
 
     tabuleiroInicial(tabuleiro);
     mostrarTabuleiro(tabuleiro);
+    
+    jogadorAtual = &jogador1;
+     while (1) {
+        jogar(jogadorAtual, tabuleiro, &qtdJogadas);
+        mostrarTabuleiro(tabuleiro);
+        if (jogadorAtual == &jogador1) {
+            jogadorAtual = &jogador2;
+        } else {
+            jogadorAtual = &jogador1;
+        }
+        int ganhador;
+        
+        ganhador = verificarVencedor(tabuleiro);
+        if(ganhador == 1){
+            printf("%s È o vencedor!", jogador1.nome);
+            break;
+        }
+        if(ganhador == 2){
+            printf("%s È o vencedor!", jogador2.nome);
+            break;
+        }
+        if(qtdJogadas==10){
+			printf("Empate!");	
+		}
+        
+    }
+
    
 }//fim main
-
