@@ -61,9 +61,9 @@ void main(){
 					fflush(stdin);
 					
 					printf("----- JOGO DA VELHA -----\n\n");
-					printf("Partida %d/4\n",qtdPartidas+1);
 					printf("Jogador 1: %s, Letra: %c\n", jogador[0].nome, jogador[0].letra);
 					printf("Jogador 2: %s, Letra: %c\n\n", jogador[1].nome, jogador[1].letra);
+					printf("Partida %d/4\n\n",qtdPartidas+1);
 					
 					mostrarTabuleiro(tabuleiro);
 					jogar(jogadorAtual, tabuleiro);
@@ -174,6 +174,7 @@ int verificarEmpate(char tabuleiro[3][3]){
     return 3;
 }//verifica empate
 
+/*
 int verificarVencedor(char tabuleiro[3][3], Jogador *jogador) {
     int i;
     for (i = 0; i < 3; i++) {
@@ -219,7 +220,51 @@ int verificarVencedor(char tabuleiro[3][3], Jogador *jogador) {
     }//fim for
 
 }//fim verificarVencedor
+*/
 
+int verificarVencedor(char tabuleiro[3][3], Jogador *jogador){
+	int i;
+	for(i=0;i<3;i++){
+		//verifica linhas
+		if(tabuleiro[i][0] != ' ' && tabuleiro[i][1] != ' ' && tabuleiro[i][2] != ' '){
+			if(tabuleiro[i][0] == jogador[0].letra && tabuleiro[i][1] == jogador[0].letra && tabuleiro[i][2] == jogador[0].letra){
+				return 1;
+			}else if(tabuleiro[i][0] == jogador[1].letra && tabuleiro[i][1] == jogador[1].letra && tabuleiro[i][2] == jogador[1].letra){
+				return 2;
+			}else{
+				return 3;
+			}
+			
+		//verifica coluna	
+		}else if(tabuleiro[0][i] != ' ' && tabuleiro[1][i] != ' ' && tabuleiro[2][i] != ' '){
+			if(tabuleiro[0][i] == jogador[0].letra && tabuleiro[1][i] == jogador[0].letra && tabuleiro[2][i] == jogador[0].letra){
+				return 1;
+			}else if(tabuleiro[i][0] == jogador[1].letra && tabuleiro[i][1] == jogador[1].letra && tabuleiro[i][2] == jogador[1].letra){
+				return 2;
+			}else{
+				return 3;
+			}
+		}else{
+			if(tabuleiro[0][0] != ' ' && tabuleiro[1][1] != ' ' && tabuleiro[2][2] != ' '){
+				if(tabuleiro[0][0] == jogador[0].letra && tabuleiro[1][1] == jogador[0].letra && tabuleiro[2][2] == jogador[0].letra){
+					return 1;
+				}else if(tabuleiro[0][0] == jogador[1].letra && tabuleiro[1][1] == jogador[1].letra && tabuleiro[2][2] == jogador[1].letra){
+					return 2;
+				}else{
+					return 3;
+				}
+			}else if(tabuleiro[0][2] != ' ' && tabuleiro[1][1] != ' ' && tabuleiro[2][0] != ' '){
+				if(tabuleiro[0][2] == jogador[0].letra && tabuleiro[1][1] == jogador[0].letra && tabuleiro[2][0] == jogador[0].letra){
+					return 1;
+				}else if(tabuleiro[0][2] == jogador[1].letra && tabuleiro[1][1] == jogador[1].letra && tabuleiro[2][0] == jogador[1].letra){
+					return 2;
+				}else{
+					return 3;
+				}
+			}
+		}
+	}//fim for
+}// fim verificarVencedor
 	
 void jogar(Jogador *jogador, char tabuleiro[3][3]) {
     int linha;
