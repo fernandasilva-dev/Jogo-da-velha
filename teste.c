@@ -26,19 +26,20 @@ void tabuleiroInicial(char tabuleiro[3][3]);
 void mostrarTabuleiro(char tabuleiro[3][3]);
 void modificarTabuleiro(char *posicao_tabuleiro);
 void nomeLetraJogador(Jogador *jogador);
-void jogar(Jogador *jogador, int *turno, char tabuleiro[3][3]);
+void jogar(Jogador *jogador, char tabuleiro[3][3]);
+//void jogar(Jogador *jogador, int *turno, char tabuleiro[3][3]);
 
 void main(){
-	
 	char tabuleiro[3][3];
 	tabuleiroInicial(tabuleiro);
 	Jogador jogador[2];
+	Jogador *jogadorAtual;
 	int turno = 0;
 	
+	jogadorAtual = &jogador[0];
 	while(1){
 		system("cls");
 		fflush(stdin);
-		
 		char op;
 		printf("----- JODO DA VELHA -----\n");
 		printf("1 - Jogar\n");
@@ -50,12 +51,22 @@ void main(){
 		case '1':
 			system("cls");
 			fflush(stdin);
-			
-			//nomeLetraJogador(jogador);
-			mostrarTabuleiro(tabuleiro);
-			//jogar(jogador, &turno, tabuleiro);
-			printf("\n");
-			system("pause");
+			nomeLetraJogador(jogador);
+			int qtdPartidas = 0;
+			while(qtdPartidas<4){
+				while(1){
+					system("cls");
+					fflush(stdin);
+					mostrarTabuleiro(tabuleiro);
+					jogar(jogadorAtual, tabuleiro);
+					mostrarTabuleiro(tabuleiro);
+					if(jogadorAtual == &jogador[0]){
+						jogadorAtual = &jogador[1];
+					}else{
+						jogadorAtual = &jogador[0];
+					}
+				}//fim while	
+			}
 			break;
 		case '0':
 			if(op=='0'){
@@ -99,6 +110,24 @@ void main(){
 	}
 }// fim jogar
 */
+	
+void jogar(Jogador *jogador, char tabuleiro[3][3]) {
+    int linha;
+    int coluna;
+    int linhaColuna;
+    do {
+        printf("%s digite a linha e coluna: ", jogador->nome);
+        linhaColuna = scanf("%d %d", &linha, &coluna);
+        if (linhaColuna !=2 || linha < 1 || linha > 3 || coluna < 1 || coluna > 3 || tabuleiro[linha-1][coluna-1] != ' ') {
+            printf("\nMovimento invalido!\n");
+            while(getchar() != '\n');
+        } else {
+            break;
+        }
+    } while(1);
+        tabuleiro[linha-1][coluna-1] = jogador->letra;
+    	system("cls");
+}//fim turno
 
 void nomeLetraJogador(Jogador *jogador){
 	char letra;

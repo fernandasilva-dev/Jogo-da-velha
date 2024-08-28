@@ -51,7 +51,7 @@ void main(){
 			system("cls");
 			fflush(stdin);
 			
-			//nomeLetraJogador(jogador);
+			nomeLetraJogador(jogador);
 			mostrarTabuleiro(tabuleiro);
 			//jogar(jogador, &turno, tabuleiro);
 			printf("\n");
@@ -99,6 +99,7 @@ void main(){
 	}
 }// fim jogar
 */
+
 
 void nomeLetraJogador(Jogador *jogador){
 	char letra;
