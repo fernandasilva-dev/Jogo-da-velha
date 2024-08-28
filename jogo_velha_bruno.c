@@ -26,6 +26,7 @@ void tabuleiroInicial(char tabuleiro[3][3]);
 void mostrarTabuleiro(char tabuleiro[3][3]);
 void modificarTabuleiro(char *posicao_tabuleiro);
 void nomeLetraJogador(Jogador *jogador);
+void jogar(Jogador *jogador, int *turno, char tabuleiro[3][3]);
 
 void main(){
 	
@@ -50,8 +51,9 @@ void main(){
 			system("cls");
 			fflush(stdin);
 			
-			nomeLetraJogador(jogador);
+			//nomeLetraJogador(jogador);
 			mostrarTabuleiro(tabuleiro);
+			//jogar(jogador, &turno, tabuleiro);
 			printf("\n");
 			system("pause");
 			break;
@@ -69,6 +71,34 @@ void main(){
 	}// fim while
 		
 }//fim main
+
+/*void jogar(Jogador *jogador, int *turno, char tabuleiro[3][3]){
+	fflush(stdin);
+	int cont = 0;
+	int linha, coluna;
+	char linhaC, colunaC;
+	while(cont<4){
+		while(linhaC != '1' || linhaC != '2' || linhaC != '3' && colunaC != '1' || colunaC != '2' || colunaC != '3'){
+			if(*turno == 0){
+			system("cls");
+			printf("----- JOGO DA VEIA -----\n\n");
+			mostrarTabuleiro(tabuleiro);
+			printf("\n%s informe a linha e a coluna: \n", jogador[0].nome);
+			printf("Linha: ");
+			scanf("%c", &linhaC);
+			fflush(stdin);
+			printf("Coluna: ");
+			scanf("%c", &colunaC);
+			printf("Linha: %c\nColuna:%c\n", linhaC, colunaC);
+			
+			system("pause");
+				
+			}//fim if
+		}//fim while
+		cont++;
+	}
+}// fim jogar
+*/
 
 void nomeLetraJogador(Jogador *jogador){
 	char letra;
@@ -108,19 +138,16 @@ void tabuleiroInicial(char tabuleiro[3][3]){
 }//fim tabuleiroInicial
 
 void mostrarTabuleiro(char tabuleiro[3][3]){
-	system("cls");
 	int i,j;
-	printf("----- JODO DA VELHA -----\n\n");
-	printf(" 1   2   3\n\n");
-	
+	printf("   1   2   3\n");
 	for(i=0;i<3;i++){
+		printf("%d ", i+1);
 		for(j=0;j<3;j++){
 			if(j==2){
 				printf(" %c ",tabuleiro[i][j]);
-				printf("   %d", i+1);
 				printf("\n");
 				if(i!=2){
-					printf("-----------");
+					printf("  -----------");
 					printf("\n");
 				}
 			}else{
@@ -134,3 +161,4 @@ void modificarTabuleiro(char *posicao_tabuleiro){
 	char *p = posicao_tabuleiro;
 	*p = 'X';
 }//fim modificarMatriz
+
