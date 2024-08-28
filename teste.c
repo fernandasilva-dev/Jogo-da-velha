@@ -54,7 +54,8 @@ void main(){
 			nomeLetraJogador(jogador);
 			int qtdPartidas = 0;
 			while(qtdPartidas<4){
-				while(1){
+				int qtdJogadas = 0;
+				while(qtdJogadas < 9){
 					system("cls");
 					fflush(stdin);
 					mostrarTabuleiro(tabuleiro);
@@ -65,8 +66,11 @@ void main(){
 					}else{
 						jogadorAtual = &jogador[0];
 					}
-				}//fim while	
-			}
+					qtdJogadas++;
+				}//fim while jogadas
+				tabuleiroInicial(tabuleiro);
+				qtdPartidas++;	
+			}//fim while partidas
 			break;
 		case '0':
 			if(op=='0'){
