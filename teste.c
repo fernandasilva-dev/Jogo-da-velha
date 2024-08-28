@@ -58,6 +58,8 @@ void main(){
 				while(qtdJogadas < 9){
 					system("cls");
 					fflush(stdin);
+					printf("----- JOGO DA VELHA -----\n");
+					printf("Partiada %d/4\n\n",qtdPartidas+1);
 					mostrarTabuleiro(tabuleiro);
 					jogar(jogadorAtual, tabuleiro);
 					mostrarTabuleiro(tabuleiro);
@@ -68,7 +70,15 @@ void main(){
 					}
 					qtdJogadas++;
 				}//fim while jogadas
+				
+				
+				
 				tabuleiroInicial(tabuleiro);
+				if(jogadorAtual == &jogador[0]){
+						jogadorAtual = &jogador[1];
+					}else{
+						jogadorAtual = &jogador[0];
+					}
 				qtdPartidas++;	
 			}//fim while partidas
 			break;
@@ -120,7 +130,7 @@ void jogar(Jogador *jogador, char tabuleiro[3][3]) {
     int coluna;
     int linhaColuna;
     do {
-        printf("%s digite a linha e coluna: ", jogador->nome);
+        printf("\n%s digite a linha e coluna: ", jogador->nome);
         linhaColuna = scanf("%d %d", &linha, &coluna);
         if (linhaColuna !=2 || linha < 1 || linha > 3 || coluna < 1 || coluna > 3 || tabuleiro[linha-1][coluna-1] != ' ') {
             printf("\nMovimento invalido!\n");
