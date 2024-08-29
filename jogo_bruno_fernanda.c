@@ -30,6 +30,7 @@ void jogar(Jogador *jogador, char tabuleiro[3][3]);
 int verificarVencedor(char tabuleiro[3][3], Jogador *jogador);
 int verificarEmpate(char tabuleiro[3][3]);
 void relatorio(Jogador *jogador, int *empate);
+void jogo(char tabuleiro[3][3], Jogador *jogador, Jogador *jogadorAtual, int *resultado, int *empate);
 
 void main(){
 	char tabuleiro[3][3];
@@ -52,7 +53,25 @@ void main(){
 		switch(op)
 		{
 		case '1':
-			nomeLetraJogador(jogador);
+			jogo(tabuleiro, jogador, jogadorAtual, &resultado, &empate);
+			break;
+		case '0':
+			if(op=='0'){
+				break;
+			}
+			break;
+		default:
+			system("cls");
+			printf("Opcao invalida!\nInforme outra posicao\n\n");
+			system("pause");
+			break;
+		}
+	}// fim while
+		
+}//fim main
+
+void jogo(char tabuleiro[3][3], Jogador *jogador, Jogador *jogadorAtual, int *resultado, int *empate){
+	nomeLetraJogador(jogador);
 			int qtdPartidas = 0;
 			while(qtdPartidas<3){
 				int qtdJogadas = 0;
@@ -109,21 +128,7 @@ void main(){
 				qtdPartidas++;	
 			}//fim while partidas
 			relatorio(jogador, &empate);
-			break;
-		case '0':
-			if(op=='0'){
-				break;
-			}
-			break;
-		default:
-			system("cls");
-			printf("Opcao invalida!\nInforme outra posicao\n\n");
-			system("pause");
-			break;
-		}
-	}// fim while
-		
-}//fim main
+}
 
 /*void jogar(Jogador *jogador, int *turno, char tabuleiro[3][3]){
 	fflush(stdin);
@@ -174,7 +179,7 @@ int verificarEmpate(char tabuleiro[3][3]){
     return 3;
 }//verifica empate
 
-/*
+
 int verificarVencedor(char tabuleiro[3][3], Jogador *jogador) {
     int i;
     for (i = 0; i < 3; i++) {
@@ -220,8 +225,9 @@ int verificarVencedor(char tabuleiro[3][3], Jogador *jogador) {
     }//fim for
 
 }//fim verificarVencedor
-*/
 
+/*
+//verificarBruno
 int verificarVencedor(char tabuleiro[3][3], Jogador *jogador){
 	int i;
 	for(i=0;i<3;i++){
@@ -264,7 +270,9 @@ int verificarVencedor(char tabuleiro[3][3], Jogador *jogador){
 			}
 		}
 	}//fim for
-}// fim verificarVencedor
+}// fim verificarVencedorBruno
+
+*/
 	
 void jogar(Jogador *jogador, char tabuleiro[3][3]) {
     int linha;
