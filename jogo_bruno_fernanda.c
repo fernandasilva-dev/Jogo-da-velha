@@ -44,7 +44,6 @@ void main(){
 			fflush(stdin);
 			nomeLetraJogador(jogador);
 			jogo(tabuleiro, jogador, jogadorAtual, &resultado, &empate);
-			empate = 4;
 			if(jogador[0].vitoria == 2 && jogador[1].vitoria == 2 || empate == 4){
 				jogoDesempate(tabuleiro,jogador, jogadorAtual, &resultado);
 			}
