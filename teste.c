@@ -48,9 +48,7 @@ void main(){
 			if(jogador[0].vitoria == 2 && jogador[1].vitoria == 2 || empate == 4){
 				jogoDesempate(tabuleiro,jogador, jogadorAtual, &resultado);
 			}
-			
 			relatorio(jogador, &empate);
-			printf("era para ser o relatorio");
 			system("pause");
 			break;
 		case '0':
