@@ -73,7 +73,7 @@ void main(){
 void jogo(char tabuleiro[3][3], Jogador *jogador, Jogador *jogadorAtual, int *resultado, int *empate){
 	nomeLetraJogador(jogador);
 			int qtdPartidas = 0;
-			while(qtdPartidas<3){
+			while(qtdPartidas<1){
 				int qtdJogadas = 0;
 				while(qtdJogadas < 9){
 					system("cls");
@@ -104,7 +104,7 @@ void jogo(char tabuleiro[3][3], Jogador *jogador, Jogador *jogadorAtual, int *re
 			        	resultado = verificarEmpate(tabuleiro);
 			        	if(resultado == 3){
 			                printf("\nA partida %d/4 deu empate!\n",qtdPartidas+1);
-			                empate +=1;
+			                *empate +=1;
 			                system("pause");
 			                break;
 			            }
@@ -165,7 +165,7 @@ void relatorio(Jogador *jogador, int *empate){
 	for(i=0;i<2;i++){
 		printf("Vitoria do %s: %d\n",jogador[i].nome,jogador[i].vitoria);
 	}
-	printf("Empate: %d\n",*empate);
+	printf("Empate: %d\n", *empate);
 	system("pause");
 }
 	
@@ -180,6 +180,7 @@ int verificarEmpate(char tabuleiro[3][3]){
 }//verifica empate
 
 
+/*
 int verificarVencedor(char tabuleiro[3][3], Jogador *jogador) {
     int i;
     for (i = 0; i < 3; i++) {
@@ -225,54 +226,47 @@ int verificarVencedor(char tabuleiro[3][3], Jogador *jogador) {
     }//fim for
 
 }//fim verificarVencedor
+*/
 
-/*
+
 //verificarBruno
 int verificarVencedor(char tabuleiro[3][3], Jogador *jogador){
 	int i;
 	for(i=0;i<3;i++){
 		//verifica linhas
-		if(tabuleiro[i][0] != ' ' && tabuleiro[i][1] != ' ' && tabuleiro[i][2] != ' '){
-			if(tabuleiro[i][0] == jogador[0].letra && tabuleiro[i][1] == jogador[0].letra && tabuleiro[i][2] == jogador[0].letra){
-				return 1;
-			}else if(tabuleiro[i][0] == jogador[1].letra && tabuleiro[i][1] == jogador[1].letra && tabuleiro[i][2] == jogador[1].letra){
-				return 2;
-			}else{
-				return 3;
-			}
-			
-		//verifica coluna	
-		}else if(tabuleiro[0][i] != ' ' && tabuleiro[1][i] != ' ' && tabuleiro[2][i] != ' '){
-			if(tabuleiro[0][i] == jogador[0].letra && tabuleiro[1][i] == jogador[0].letra && tabuleiro[2][i] == jogador[0].letra){
-				return 1;
-			}else if(tabuleiro[i][0] == jogador[1].letra && tabuleiro[i][1] == jogador[1].letra && tabuleiro[i][2] == jogador[1].letra){
-				return 2;
-			}else{
-				return 3;
-			}
-		}else{
-			if(tabuleiro[0][0] != ' ' && tabuleiro[1][1] != ' ' && tabuleiro[2][2] != ' '){
-				if(tabuleiro[0][0] == jogador[0].letra && tabuleiro[1][1] == jogador[0].letra && tabuleiro[2][2] == jogador[0].letra){
-					return 1;
-				}else if(tabuleiro[0][0] == jogador[1].letra && tabuleiro[1][1] == jogador[1].letra && tabuleiro[2][2] == jogador[1].letra){
-					return 2;
-				}else{
-					return 3;
-				}
-			}else if(tabuleiro[0][2] != ' ' && tabuleiro[1][1] != ' ' && tabuleiro[2][0] != ' '){
-				if(tabuleiro[0][2] == jogador[0].letra && tabuleiro[1][1] == jogador[0].letra && tabuleiro[2][0] == jogador[0].letra){
-					return 1;
-				}else if(tabuleiro[0][2] == jogador[1].letra && tabuleiro[1][1] == jogador[1].letra && tabuleiro[2][0] == jogador[1].letra){
-					return 2;
-				}else{
-					return 3;
-				}
-			}
+		if(tabuleiro[i][0] == jogador[0].letra && tabuleiro[i][1] == jogador[0].letra && tabuleiro[i][2] == jogador[0].letra){
+			return 1;
+		}else if(tabuleiro[i][0] == jogador[1].letra && tabuleiro[i][1] == jogador[1].letra && tabuleiro[i][2] == jogador[1].letra){
+			return 2;
 		}
-	}//fim for
+	}// fim for linhas
+	
+	for(i=0;i<3;i++){
+		//verifica as colunas
+		if(tabuleiro[0][i] == jogador[0].letra && tabuleiro[1][i] == jogador[0].letra && tabuleiro[2][i] == jogador[0].letra){
+			return 1;
+		}else if(tabuleiro[0][i] == jogador[1].letra && tabuleiro[1][i] == jogador[1].letra && tabuleiro[2][i] == jogador[1].letra){
+			return 2;
+		}	
+	}//fim for colunas
+	
+	//verifica diagonal principal
+		if(tabuleiro[0][0] == jogador[0].letra && tabuleiro[1][1] == jogador[0].letra && tabuleiro[2][2] == jogador[0].letra){
+			return 1;
+		}else if(tabuleiro[0][0] == jogador[1].letra && tabuleiro[1][1] == jogador[1].letra && tabuleiro[2][2] == jogador[1].letra){
+			return 2;
+		}
+		
+		//verifica diagonal secundaria
+		if(tabuleiro[0][2] == jogador[0].letra && tabuleiro[1][1] == jogador[0].letra && tabuleiro[2][0] == jogador[0].letra){
+			return 1;
+		}else if(tabuleiro[0][2] == jogador[1].letra && tabuleiro[1][1] == jogador[1].letra && tabuleiro[2][0] == jogador[1].letra){
+			return 2;
+		}
+	
+	
 }// fim verificarVencedorBruno
 
-*/
 	
 void jogar(Jogador *jogador, char tabuleiro[3][3]) {
     int linha;
@@ -349,8 +343,3 @@ void mostrarTabuleiro(char tabuleiro[3][3]){
 		}//fim for do J
 	}//fim do for do I
 }//fim mostrarMatriz
-
-void modificarTabuleiro(char *posicao_tabuleiro){
-	char *p = posicao_tabuleiro;
-	*p = 'X';
-}//fim modificarMatriz
