@@ -3,19 +3,6 @@
 #include <stdlib.h>
 //  \n ||
 
-/*
-
-printf("Endereco &jogador[2]: %p\n\n", &jogador[2]);
-printf("Endereco &jogador: %p\n\n", &jogador);
-printf("Endereco &jogador[0]: %p\n", &jogador[0]);
-printf("Endereco &jogador[1]: %p\n\n", &jogador[1]);
-printf("Endereco &jogador[0].nome: %p\n", &jogador[0].nome);
-printf("Endereco &jogador[0].letra: %p\n\n", &jogador[0].letra);
-printf("Endereco &jogador[1].nome: %p\n", &jogador[1].nome);
-printf("Endereco &jogador[1].letra: %p\n", &jogador[1].letra);
-
-*/
-
 typedef struct {
 	   char	nome[100];
 	   char letra;
@@ -24,7 +11,7 @@ typedef struct {
 
 void tabuleiroInicial(char tabuleiro[3][3]);
 void mostrarTabuleiro(char tabuleiro[3][3]);
-void modificarTabuleiro(char *posicao_tabuleiro);
+
 void nomeLetraJogador(Jogador *jogador);
 void jogar(Jogador *jogador, char tabuleiro[3][3]);
 int verificarVencedor(char tabuleiro[3][3], Jogador *jogador);
@@ -34,13 +21,12 @@ void jogo(char tabuleiro[3][3], Jogador *jogador, Jogador *jogadorAtual, int *re
 
 void main(){
 	char tabuleiro[3][3];
-	tabuleiroInicial(tabuleiro);
-	Jogador jogador[2];
-	
-	Jogador *jogadorAtual;
+	tabuleiroInicial(tabuleiro); // Tabuleiro com ' '.
+	Jogador jogador[2]; //vetor de duas posicoes e cada posicao sendo um struct do tipo Jogador.
+	Jogador *jogadorAtual; //Ponteiro vai apontar para o jogador atual.
 	int resultado, empate = 0;
 	
-	jogadorAtual = &jogador[0];
+	jogadorAtual = &jogador[0]; // Definindo o jogador atual como sendo o jogador da posicao 0.
 	while(1){
 		system("cls");
 		fflush(stdin);

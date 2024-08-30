@@ -3,41 +3,31 @@
 #include <stdlib.h>
 //  \n ||
 
-/*
-
-printf("Endereco &jogador[2]: %p\n\n", &jogador[2]);
-printf("Endereco &jogador: %p\n\n", &jogador);
-printf("Endereco &jogador[0]: %p\n", &jogador[0]);
-printf("Endereco &jogador[1]: %p\n\n", &jogador[1]);
-printf("Endereco &jogador[0].nome: %p\n", &jogador[0].nome);
-printf("Endereco &jogador[0].letra: %p\n\n", &jogador[0].letra);
-printf("Endereco &jogador[1].nome: %p\n", &jogador[1].nome);
-printf("Endereco &jogador[1].letra: %p\n", &jogador[1].letra);
-
-*/
-
 typedef struct {
 	   char	nome[100];
 	   char letra;
 	   int vitoria;
 }Jogador;
 
-void tabuleiroInicial(char tabuleiro[3][3]);
-void mostrarTabuleiro(char tabuleiro[3][3]);
-void modificarTabuleiro(char *posicao_tabuleiro);
+void tabuleiroInicial(char tabuleiro[3][3]); // Coloca espacos em branco no tabuleiro
+void mostrarTabuleiro(char tabuleiro[3][3]); //Mostra o tabuleiro
+
 void nomeLetraJogador(Jogador *jogador);
 void jogar(Jogador *jogador, char tabuleiro[3][3]);
-int verificarVencedor(char tabuleiro[3][3]);
-//void jogar(Jogador *jogador, int *turno, char tabuleiro[3][3]);
+int verificarVencedor(char tabuleiro[3][3], Jogador *jogador);
+int verificarEmpate(char tabuleiro[3][3]);
+void relatorio(Jogador *jogador, int *empate);
+void jogo(char tabuleiro[3][3], Jogador *jogador, Jogador *jogadorAtual, int *resultado, int *empate);
+void jogoDesempate(char tabuleiro[3][3], Jogador *jogador, Jogador *jogadorAtual, int *resultado);
 
 void main(){
 	char tabuleiro[3][3];
-	tabuleiroInicial(tabuleiro);
-	Jogador jogador[2];
-	Jogador *jogadorAtual;
-	int resultado;
+	tabuleiroInicial(tabuleiro); // Tabuleiro com ' '.
+	Jogador jogador[2]; //vetor de duas posicoes e cada posicao sendo um struct do tipo Jogador.
+	Jogador *jogadorAtual; //Ponteiro vai apontar para o jogador atual.
+	int resultado, empate = 0;
 	
-	jogadorAtual = &jogador[0];
+	jogadorAtual = &jogador[0]; // Definindo o jogador atual como sendo o jogador da posicao 0.
 	while(1){
 		system("cls");
 		fflush(stdin);
@@ -53,45 +43,14 @@ void main(){
 			system("cls");
 			fflush(stdin);
 			nomeLetraJogador(jogador);
-			int qtdPartidas = 0;
-			while(qtdPartidas<4){
-				int qtdJogadas = 0;
-				while(qtdJogadas < 9){
-					system("cls");
-					fflush(stdin);
-					printf("----- JOGO DA VELHA -----\n");
-					printf("Partiada %d/4\n\n",qtdPartidas+1);
-					mostrarTabuleiro(tabuleiro);
-					jogar(jogadorAtual, tabuleiro);
-					mostrarTabuleiro(tabuleiro);
-			        
-					if(jogadorAtual == &jogador[0]){
-						jogadorAtual = &jogador[1];
-					}else{
-						jogadorAtual = &jogador[0];
-					}
-					resultado = verificarVencedor(tabuleiro);
-					if(resultado == 1){
-			            printf("%s e o vencedor da partida %d/4!\n\n", jogador[0].nome,qtdPartidas+1);
-			            system("pause");
-			            break;
-			        }
-			        if(resultado == 2){
-			            printf("%s e o vencedor da partida %d/4!\n\n", jogador[1].nome,qtdPartidas);
-			            system("pause");
-			            break;
-			        }
-					qtdJogadas++;
-				}//fim while jogadas
-				
-				tabuleiroInicial(tabuleiro);
-				if(jogadorAtual == &jogador[0]){
-						jogadorAtual = &jogador[1];
-					}else{
-						jogadorAtual = &jogador[0];
-					}
-				qtdPartidas++;	
-			}//fim while partidas
+			jogo(tabuleiro, jogador, jogadorAtual, &resultado, &empate);
+			if(jogador[0].vitoria == 2 && jogador[1].vitoria == 2 || empate == 4){
+				jogoDesempate(tabuleiro,jogador, jogadorAtual, &resultado);
+			}else{
+				relatorio(jogador, &empate);
+				system("pause");	
+			}
+			system("pause");
 			break;
 		case '0':
 			if(op=='0'){
@@ -108,71 +67,242 @@ void main(){
 		
 }//fim main
 
-/*void jogar(Jogador *jogador, int *turno, char tabuleiro[3][3]){
-	fflush(stdin);
-	int cont = 0;
-	int linha, coluna;
-	char linhaC, colunaC;
-	while(cont<4){
-		while(linhaC != '1' || linhaC != '2' || linhaC != '3' && colunaC != '1' || colunaC != '2' || colunaC != '3'){
-			if(*turno == 0){
+void jogoDesempate(char tabuleiro[3][3], Jogador *jogador, Jogador *jogadorAtual, int *resultado){
+	int partidaDesempate = 1;
+	while(partidaDesempate == 1){
+		int qtdJogadas = 0;
+		while(qtdJogadas < 9){
 			system("cls");
-			printf("----- JOGO DA VEIA -----\n\n");
-			mostrarTabuleiro(tabuleiro);
-			printf("\n%s informe a linha e a coluna: \n", jogador[0].nome);
-			printf("Linha: ");
-			scanf("%c", &linhaC);
 			fflush(stdin);
-			printf("Coluna: ");
-			scanf("%c", &colunaC);
-			printf("Linha: %c\nColuna:%c\n", linhaC, colunaC);
+			printf("----- JOGO DA VELHA -----\n");
+			printf("----- PARTIDA DE DESEMPATE -----\n\n");
+			printf("Jogador 1: %s, Letra: %c\n", jogador[0].nome, jogador[0].letra);
+			printf("Jogador 2: %s, Letra: %c\n\n", jogador[1].nome, jogador[1].letra);
 			
-			system("pause");
-				
-			}//fim if
-		}//fim while
-		cont++;
-	}
-}// fim jogar
-*/
+			mostrarTabuleiro(tabuleiro);
+			jogar(jogadorAtual, tabuleiro);
+			resultado = verificarVencedor(tabuleiro,jogador);
+			if(resultado == 1){
+				system("cls");
+				printf("----- JOGO DA VELHA -----\n");
+				printf("----- PARTIDA DE DESEMPATE -----\n\n");
+				mostrarTabuleiro(tabuleiro);
+	            printf("\n%s e o vencedor da partida de desempate\n", jogador[0].nome);
+	            jogador[0].vitoria +=1;
+	            partidaDesempate = 0;
+	            printf("Vitoria: %d\n\n",jogador[0].vitoria);
+	            system("pause");
+	            break;
+	        }else if(resultado == 2){
+	        	system("cls");
+				printf("----- JOGO DA VELHA -----\n");
+				printf("----- PARTIDA DE DESEMPATE -----\n\n");
+				mostrarTabuleiro(tabuleiro);
+	            printf("\n%s e o vencedor da partida desempate\n", jogador[1].nome);
+	            jogador[1].vitoria +=1;
+	            partidaDesempate = 0;
+	            printf("Vitoria: %d\n\n",jogador[1].vitoria);
+	            system("pause");
+	            break;
+	        }else{
+	        	printf("----- JOGO DA VELHA -----\n");
+				printf("----- PARTIDA DE DESEMPATE -----\n\n");
+	        	mostrarTabuleiro(tabuleiro);
+	        	resultado = verificarEmpate(tabuleiro);
+	        	if(resultado == 3){
+	                printf("\nA partida de desempate deu empate!\n");
+	                printf("\nA partida a partida continuara até que haja um vencedor!\n");
+	                system("pause");
+	                break;
+	            }
+			}
+			
+	        //troca de jogador
+			if(jogadorAtual == &jogador[0]){
+				jogadorAtual = &jogador[1];
+			}else{
+				jogadorAtual = &jogador[0];
+			}
+			qtdJogadas++;
+		}//fim while jogadas
+		
+		//Coloca o jogador 1 para iniciar as partidas
+		if(jogadorAtual == &jogador[1]){
+			jogadorAtual = &jogador[0];
+		}
+		//Limpa o tabuleiro
+		tabuleiroInicial(tabuleiro);
+	}//fim while partidas	
+	
+}//fim funcao jogoDesempate
 
-int verificarVencedor(char tabuleiro[3][3]) {
+void jogo(char tabuleiro[3][3], Jogador *jogador, Jogador *jogadorAtual, int *resultado, int *empate){
+			int qtdPartidas = 0;
+			while(qtdPartidas<4){
+				int qtdJogadas = 0;
+				while(qtdJogadas < 9){
+					system("cls");
+					fflush(stdin);
+					
+					printf("----- JOGO DA VELHA -----\n\n");
+					printf("Jogador 1: %s, Letra: %c\n", jogador[0].nome, jogador[0].letra);
+					printf("Jogador 2: %s, Letra: %c\n\n", jogador[1].nome, jogador[1].letra);
+					printf("Partida %d/4\n\n",qtdPartidas+1);
+					
+					mostrarTabuleiro(tabuleiro);
+					jogar(jogadorAtual, tabuleiro);
+					resultado = verificarVencedor(tabuleiro,jogador);
+					if(resultado == 1){
+						system("cls");
+						printf("----- JOGO DA VELHA -----\n\n");
+						mostrarTabuleiro(tabuleiro);
+			            printf("\n%s e o vencedor da partida %d/4!\n", jogador[0].nome,qtdPartidas+1);
+			            jogador[0].vitoria +=1;
+			            printf("Vitoria: %d\n\n",jogador[0].vitoria);
+			            system("pause");
+			            break;
+			        }else if(resultado == 2){
+			            printf("\n%s e o vencedor da partida %d/4!\n", jogador[1].nome,qtdPartidas+1);
+			            jogador[1].vitoria +=1;
+			            printf("Vitoria: %d\n\n",jogador[1].vitoria);
+			            system("pause");
+			            break;
+			        }else{
+			        	//mostrarTabuleiro(tabuleiro);
+			        	resultado = verificarEmpate(tabuleiro);
+			        	if(resultado == 3){
+			                printf("\nA partida %d/4 deu empate!\n",qtdPartidas+1);
+			                *empate +=1;
+			                system("pause");
+			                break;
+			            }
+					}
+					
+			        //troca de jogador
+					if(jogadorAtual == &jogador[0]){
+						jogadorAtual = &jogador[1];
+					}else{
+						jogadorAtual = &jogador[0];
+					}
+					qtdJogadas++;
+				}//fim while jogadas
+				
+				//Coloca o jogador 1 para iniciar as partidas
+				if(jogadorAtual == &jogador[1]){
+					jogadorAtual = &jogador[0];
+				}
+				//Limpa o tabuleiro
+				tabuleiroInicial(tabuleiro);
+				qtdPartidas++;	
+			}//fim while partidas
+}//fim funcao jogo
+	
+void relatorio(Jogador *jogador, int *empate){
+	system("cls");
+	printf("----- JOGO DA VELHA - RELATORIO -----\n\n");
+	int i;
+	for(i=0;i<2;i++){
+		printf("Vitoria do %s: %d\n",jogador[i].nome,jogador[i].vitoria);
+	}
+	printf("Empate: %d\n", *empate);
+	system("pause");
+}
+	
+int verificarEmpate(char tabuleiro[3][3]){
+    int i;
+    for(i = 0; i < 3; i++){
+        if(tabuleiro[i][0] == ' ' || tabuleiro[i][1] == ' ' || tabuleiro[i][2] == ' '){
+            return 0;
+        }
+    }
+    return 3;
+}//verifica empate
+
+
+/*
+int verificarVencedor(char tabuleiro[3][3], Jogador *jogador) {
     int i;
     for (i = 0; i < 3; i++) {
         if (tabuleiro[i][0] == tabuleiro[i][1] && tabuleiro[i][1] == tabuleiro[i][2] && tabuleiro[i][0] != ' ') {
-            if(tabuleiro[i][0] == 'X'){
+            if(tabuleiro[i][0] == jogador[0].letra){
                 return 1;
-            }else{
+            }
+        }else if (tabuleiro[i][0] == tabuleiro[i][1] && tabuleiro[i][1] == tabuleiro[i][2] && tabuleiro[i][0] != ' ') {
+            if(tabuleiro[i][0] == jogador[1].letra){
                 return 2;
             }
         }
 
         if (tabuleiro[0][i] == tabuleiro[1][i] && tabuleiro[1][i] == tabuleiro[2][i] && tabuleiro[0][i] != ' ') {
-            if(tabuleiro[i][0] == 'X'){
+            if(tabuleiro[i][0] == jogador[0].letra){
                 return 1;
-            }else{
+            }
+        }else if (tabuleiro[i][0] == tabuleiro[i][1] && tabuleiro[i][1] == tabuleiro[i][2] && tabuleiro[i][0] != ' ') {
+            if(tabuleiro[i][0] == jogador[1].letra){
                 return 2;
             }
         }
 
         if (tabuleiro[0][0] == tabuleiro[1][1] && tabuleiro[1][1] == tabuleiro[2][2] && tabuleiro[0][0] != ' ') {
-            if(tabuleiro[i][0] == 'X'){
+            if(tabuleiro[i][0] == jogador[0].letra){
                 return 1;
-            }else{
+            }
+        }else if (tabuleiro[i][0] == tabuleiro[i][1] && tabuleiro[i][1] == tabuleiro[i][2] && tabuleiro[i][0] != ' ') {
+            if(tabuleiro[i][0] == jogador[1].letra){
                 return 2;
             }
         }
 
         if (tabuleiro[0][2] == tabuleiro[1][1] && tabuleiro[1][1] == tabuleiro[2][0] && tabuleiro[0][2] != ' ') {
-            if(tabuleiro[i][0] == 'X'){
+            if(tabuleiro[i][0] == jogador[0].letra){
                 return 1;
-            }else{
+            }
+        }else if (tabuleiro[i][0] == tabuleiro[i][1] && tabuleiro[i][1] == tabuleiro[i][2] && tabuleiro[i][0] != ' ') {
+            if(tabuleiro[i][0] == jogador[1].letra){
                 return 2;
             }
         }
     }//fim for
 
 }//fim verificarVencedor
+*/
+
+int verificarVencedor(char tabuleiro[3][3], Jogador *jogador){
+	int i;
+	for(i=0;i<3;i++){
+		//verifica linhas
+		if(tabuleiro[i][0] == jogador[0].letra && tabuleiro[i][1] == jogador[0].letra && tabuleiro[i][2] == jogador[0].letra){
+			return 1;
+		}else if(tabuleiro[i][0] == jogador[1].letra && tabuleiro[i][1] == jogador[1].letra && tabuleiro[i][2] == jogador[1].letra){
+			return 2;
+		}
+	}// fim for linhas
+	
+	for(i=0;i<3;i++){
+		//verifica as colunas
+		if(tabuleiro[0][i] == jogador[0].letra && tabuleiro[1][i] == jogador[0].letra && tabuleiro[2][i] == jogador[0].letra){
+			return 1;
+		}else if(tabuleiro[0][i] == jogador[1].letra && tabuleiro[1][i] == jogador[1].letra && tabuleiro[2][i] == jogador[1].letra){
+			return 2;
+		}	
+	}//fim for colunas
+	
+	//verifica diagonal principal
+		if(tabuleiro[0][0] == jogador[0].letra && tabuleiro[1][1] == jogador[0].letra && tabuleiro[2][2] == jogador[0].letra){
+			return 1;
+		}else if(tabuleiro[0][0] == jogador[1].letra && tabuleiro[1][1] == jogador[1].letra && tabuleiro[2][2] == jogador[1].letra){
+			return 2;
+		}
+		
+		//verifica diagonal secundaria
+		if(tabuleiro[0][2] == jogador[0].letra && tabuleiro[1][1] == jogador[0].letra && tabuleiro[2][0] == jogador[0].letra){
+			return 1;
+		}else if(tabuleiro[0][2] == jogador[1].letra && tabuleiro[1][1] == jogador[1].letra && tabuleiro[2][0] == jogador[1].letra){
+			return 2;
+		}
+	
+	
+}// fim verificarVencedor
 
 	
 void jogar(Jogador *jogador, char tabuleiro[3][3]) {
@@ -190,8 +320,7 @@ void jogar(Jogador *jogador, char tabuleiro[3][3]) {
         }
     } while(1);
         tabuleiro[linha-1][coluna-1] = jogador->letra;
-    	system("cls");
-}//fim turno
+}//fim jogar
 
 void nomeLetraJogador(Jogador *jogador){
 	char letra;
@@ -213,6 +342,7 @@ void nomeLetraJogador(Jogador *jogador){
 				printf("Letra invalida, informe X ou O\n");	
 			}
 		}//fim while
+		jogador[i].vitoria = 0;
 		if(jogador[0].letra == 'X'){
 			jogador[1].letra = 'O';
 		}else{
@@ -232,7 +362,7 @@ void tabuleiroInicial(char tabuleiro[3][3]){
 
 void mostrarTabuleiro(char tabuleiro[3][3]){
 	int i,j;
-	printf("   1   2   3\n");
+	printf("   1   2   3\n\n");
 	for(i=0;i<3;i++){
 		printf("%d ", i+1);
 		for(j=0;j<3;j++){
@@ -249,9 +379,3 @@ void mostrarTabuleiro(char tabuleiro[3][3]){
 		}//fim for do J
 	}//fim do for do I
 }//fim mostrarMatriz
-
-void modificarTabuleiro(char *posicao_tabuleiro){
-	char *p = posicao_tabuleiro;
-	*p = 'X';
-}//fim modificarMatriz
-
