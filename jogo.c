@@ -66,8 +66,7 @@ void main(){
 				system("cls");
 				fflush(stdin);
 				nomeLetraJogador(jogador);
-				//jogo(tabuleiro, jogador, jogadorAtual, &resultado, &empate);
-				empate = 4;
+				jogo(tabuleiro, jogador, jogadorAtual, &resultado, &empate);
 				if(jogador[0].vitoria == jogador[1].vitoria || empate == 4){
 					jogoDesempate(tabuleiro,jogador, jogadorAtual, &resultado, &empate);
 				}
