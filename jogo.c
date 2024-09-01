@@ -20,13 +20,14 @@ void tabuleiroInicial(char tabuleiro[3][3]);
 void mostrarTabuleiro(char tabuleiro[3][3]);
 
 void main(){
+	
 	char tabuleiro[3][3];
 	tabuleiroInicial(tabuleiro); // Tabuleiro com ' '.
 	Jogador jogador[2];
 	Jogador *jogadorAtual; //Ponteiro vai apontar para o jogador atual.
 	int resultado, empate = 0; // resultado pega o retorno na funcao verifica vencedor
-
 	jogadorAtual = &jogador[0]; // Definindo o jogador atual como sendo o jogador da posicao 0.
+	
 	while(1){
 		system("cls");
 		fflush(stdin);
@@ -65,7 +66,8 @@ void main(){
 				system("cls");
 				fflush(stdin);
 				nomeLetraJogador(jogador);
-				jogo(tabuleiro, jogador, jogadorAtual, &resultado, &empate);
+				//jogo(tabuleiro, jogador, jogadorAtual, &resultado, &empate);
+				empate = 4;
 				if(jogador[0].vitoria == jogador[1].vitoria || empate == 4){
 					jogoDesempate(tabuleiro,jogador, jogadorAtual, &resultado, &empate);
 				}
@@ -75,6 +77,8 @@ void main(){
 				}else if(jogador[1].vitoria > jogador[0].vitoria){
 					printf("GANHADOR: %s\n", jogador[1].nome);
 					
+				}else{
+					printf("EMPATE\n");
 				}
 				system("pause");
 				break;
@@ -91,6 +95,7 @@ void main(){
 }//fim main
 
 void jogoDesempate(char tabuleiro[3][3], Jogador *jogador, Jogador *jogadorAtual, int *resultado, int *empate){
+	
 	int partidaDesempate = 0;
 	while(partidaDesempate < 1){
 		int qtdJogadas = 0;
@@ -217,6 +222,7 @@ void jogoDesempate(char tabuleiro[3][3], Jogador *jogador, Jogador *jogadorAtual
 }//fim funcao jogoDesempate
 
 void jogo(char tabuleiro[3][3], Jogador *jogador, Jogador *jogadorAtual, int *resultado, int *empate){
+	
 			int qtdPartidas = 0;
 			int o;
 			system("cls");
@@ -349,6 +355,7 @@ void jogo(char tabuleiro[3][3], Jogador *jogador, Jogador *jogadorAtual, int *re
 }//fim funcao jogo
 
 void relatorio(Jogador *jogador, int *empate){
+	
 	system("cls");
 	int t;
 	for(t = 0; t < 45; t++){
@@ -375,7 +382,6 @@ int verificarEmpate(char tabuleiro[3][3]){
     }
     return 3;
 }//verifica empate
-
 
 int verificarVencedor(char tabuleiro[3][3], Jogador *jogador){
 	int i;
@@ -413,7 +419,6 @@ int verificarVencedor(char tabuleiro[3][3], Jogador *jogador){
 
 
 }// fim verificarVencedor
-
 
 void jogar(Jogador *jogador, char tabuleiro[3][3]) {
     int linha;
