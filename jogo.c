@@ -9,7 +9,7 @@ typedef struct {
 	   int vitoria;
 }Jogador;
 
-void jogoDesempate(char tabuleiro[3][3], Jogador *jogador, Jogador *jogadorAtual, int *resultado);
+void jogoDesempate(char tabuleiro[3][3], Jogador *jogador, Jogador *jogadorAtual, int *resultado, int *empate);
 void jogo(char tabuleiro[3][3], Jogador *jogador, Jogador *jogadorAtual, int *resultado, int *empate);
 void relatorio(Jogador *jogador, int *empate);
 int verificarEmpate(char tabuleiro[3][3]);
@@ -66,7 +66,7 @@ void main(){
 				nomeLetraJogador(jogador);
 				jogo(tabuleiro, jogador, jogadorAtual, &resultado, &empate);
 				if(jogador[0].vitoria == jogador[1].vitoria || empate == 4){
-					jogoDesempate(tabuleiro,jogador, jogadorAtual, &resultado);
+					jogoDesempate(tabuleiro,jogador, jogadorAtual, &resultado, &empate);
 				}
 				relatorio(jogador, &empate);
 				system("pause");
@@ -83,9 +83,9 @@ void main(){
 
 }//fim main
 
-void jogoDesempate(char tabuleiro[3][3], Jogador *jogador, Jogador *jogadorAtual, int *resultado){
-	int partidaDesempate = 1;
-	while(partidaDesempate == 1){
+void jogoDesempate(char tabuleiro[3][3], Jogador *jogador, Jogador *jogadorAtual, int *resultado, int *empate){
+	int partidaDesempate = 0;
+	while(partidaDesempate < 1){
 		int qtdJogadas = 0;
 		while(qtdJogadas < 9){
 			system("cls");
@@ -133,6 +133,7 @@ void jogoDesempate(char tabuleiro[3][3], Jogador *jogador, Jogador *jogadorAtual
 	            partidaDesempate = 0;
 	            printf("Vitoria: %d\n\n",jogador[0].vitoria);
 	            system("pause");
+	            partidaDesempate++;
 	            break;
 	        }else if(resultado == 2){
 	        	system("cls");
@@ -158,6 +159,7 @@ void jogoDesempate(char tabuleiro[3][3], Jogador *jogador, Jogador *jogadorAtual
 	            partidaDesempate = 0;
 	            printf("Vitoria: %d\n\n",jogador[1].vitoria);
 	            system("pause");
+	            partidaDesempate++;
 	            break;
 	        }//vitoria jogador 2
 
@@ -181,7 +183,8 @@ void jogoDesempate(char tabuleiro[3][3], Jogador *jogador, Jogador *jogadorAtual
 				printf("%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c\n",204, 205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,185);
 	        	mostrarTabuleiro(tabuleiro);
                 printf("A partida de desempate deu empate!\n");
-                printf("Uma nova partira sera iniciada ate que haja um vencedor!\n\n");
+                *empate += 1;
+                partidaDesempate++;
                 system("pause");
                 break;
 
