@@ -59,6 +59,7 @@ void main(){
 		if(op == '0'){
 			break;
 		}
+		
 		switch(op){
 			case '1':
 				system("cls");
@@ -69,6 +70,12 @@ void main(){
 					jogoDesempate(tabuleiro,jogador, jogadorAtual, &resultado, &empate);
 				}
 				relatorio(jogador, &empate);
+				if(jogador[0].vitoria > jogador[1].vitoria){
+					printf("GANHADOR: %s\n", jogador[0].nome);
+				}else if(jogador[1].vitoria > jogador[0].vitoria){
+					printf("GANHADOR: %s\n", jogador[1].nome);
+					
+				}
 				system("pause");
 				break;
 			case '0':
